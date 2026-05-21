@@ -1,0 +1,35 @@
+services:
+  wordpress:
+    build: ./Wordpress
+    container_name: ubuntu-wordepress
+    environment:
+      WORDPRESS_DB_HOST: db_wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpresspass
+    ports:
+      - "8080:80"
+    depends_on:
+      - db_wordpress
+    networks:
+      - wordpressnet
+
+  db_wordpress:
+    image: mysql:8.4
+    container_name: db-wordpress
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpresspass
+      MYSQL_ROOT_PASSWORD: rootpass
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - wordpressnet
+
+volumes:
+  db_data:
+
+networks:
+  wordpressnet:
+  
